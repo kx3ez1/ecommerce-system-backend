@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  mongo1:
+    image: mongo:7.0 # Replace with your desired version
+    command: --replSet rs0 --auth --bind_ip_all --keyFile /etc/mongo/keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ecf052ef4ae6c66033f166054d7f9deb47929da556071384
+    volumes:
+      - ./data1:/data/db
+      - ./mongo-keyfile:/etc/mongo/keyfile
+    ports:
+      - "27017:27017"
+    healthcheck: # Example healthcheck
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
